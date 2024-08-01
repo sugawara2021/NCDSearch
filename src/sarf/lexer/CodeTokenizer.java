@@ -8,7 +8,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CodeTokenizer {
+public class CodeTokenizer implements TokenReader {
 
     public static void main(String[] args) {
         if (args.length == 0) {
@@ -48,6 +48,43 @@ public class CodeTokenizer {
             }
         }
     }
+    
+    @Override
+    public boolean next() {
+    	// TODO Auto-generated method stub
+    	return false;
+    }
+    
+    @Override
+    public String getToken() {
+    	// TODO Auto-generated method stub
+    	return null;
+    }
+    
+    @Override
+    public String getNormalizedToken() {
+    	// TODO Auto-generated method stub
+    	return null;
+    }
+    
+    @Override
+    public int getLine() {
+    	// TODO Auto-generated method stub
+    	return 0;
+    }
+    
+    @Override
+    public FileType getFileType() {
+    	// TODO Auto-generated method stub
+    	return null;
+    }
+    
+    @Override
+    public int getCharPositionInLine() {
+    	// TODO Auto-generated method stub
+    	return 0;
+    }
+    
 
     private static List<String> processFile(File file) {
         List<String> tokens = new ArrayList<>();
