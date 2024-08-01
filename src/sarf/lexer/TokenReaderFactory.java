@@ -174,6 +174,9 @@ public class TokenReaderFactory {
 			case PLAINTEXT:
 				return new PlainTextReader(new StringReader(new String(buf, charset)));
 				
+			case NEUTRAL:
+				return new CodeTokenizer(new StringReader(new String(buf, charset)));
+				
 			case DOCX:
 				return new DocxReader(new ByteArrayInputStream(buf));
 				
@@ -241,10 +244,15 @@ public class TokenReaderFactory {
 
 			case PLAINTEXT:
 				return new PlainTextReader(reader);
-
-			case DOCX:
+				
+			case NEUTRAL:
+				return new PlainTextReader(reader);
 				// Cannot create a reader for a binary file
+			
+			case DOCX:
+				
 			case UNSUPPORTED:
+			
 			default:
 				return null;
 				
