@@ -9,37 +9,54 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.io.Reader;
 
+
 public class CodeTokenizer implements TokenReader {
 
 	List<Token> tokens;
+	private int index = -1;
 	
 	public CodeTokenizer(Reader r) {
 		// r からファイルの中身をロードする
 		tokens = processFile(r);
-		
 	}
 	
     @Override
     public boolean next() {
     	// TODO Auto-generated method stub
+    	if(tokens != null) {
+    		for(Token token : tokens) {
+    			index++;
+    			return true;
+    		}
+    	}
     	return false;
     }
     
     @Override
     public String getToken() {
     	// TODO Auto-generated method stub
+ if(index >= 0 && index < tokens.size()) {
+	 Token specificToken = tokens.get(index);
+	 return specificToken.value;
+ }
+    	
     	return null;
     }
     
     @Override
     public String getNormalizedToken() {
     	// TODO Auto-generated method stub
+    	String NormalizedToken = getToken();
     	return null;
     }
     
     @Override
     public int getLine() {
     	// TODO Auto-generated method stub
+    	 if(index >= 0 && index < tokens.size()) {
+    		 Token specificToken = tokens.get(index);
+    		 return specificToken.line;
+    	 }
     	return 0;
     }
     
@@ -52,6 +69,10 @@ public class CodeTokenizer implements TokenReader {
     @Override
     public int getCharPositionInLine() {
     	// TODO Auto-generated method stub
+    	 if(index >= 0 && index < tokens.size()) {
+    		 Token specificToken = tokens.get(index);
+    		 return specificToken.position;
+    	 }
     	return 0;
     }
     

@@ -62,7 +62,7 @@ public class TokenReaderFactory {
 		filetype.put("txt", FileType.PLAINTEXT);
 		filetype.put("html", FileType.PLAINTEXT);
 		filetype.put("md", FileType.PLAINTEXT);
-
+		filetype.put("java", FileType.NEUTRAL);
 		filetype.put("docx", FileType.DOCX);
 	}
 	
