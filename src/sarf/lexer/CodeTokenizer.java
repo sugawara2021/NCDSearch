@@ -24,8 +24,8 @@ public class CodeTokenizer implements TokenReader {
     public boolean next() {
     	// TODO Auto-generated method stub
     	if(tokens != null) {
-    		for(Token token : tokens) {
-    			index++;
+    		index++;
+    		if(index < tokens.size()) {
     			return true;
     		}
     	}
@@ -46,8 +46,7 @@ public class CodeTokenizer implements TokenReader {
     @Override
     public String getNormalizedToken() {
     	// TODO Auto-generated method stub
-    	String NormalizedToken = getToken();
-    	return null;
+    	return getToken();
     }
     
     @Override
@@ -63,7 +62,7 @@ public class CodeTokenizer implements TokenReader {
     @Override
     public FileType getFileType() {
     	// TODO Auto-generated method stub
-    	return null;
+    	return FileType.NEUTRAL;
     }
     
     @Override
