@@ -246,7 +246,7 @@ public class TokenReaderFactory {
 				return new PlainTextReader(reader);
 				
 			case NEUTRAL:
-				return new PlainTextReader(reader);
+				return new CodeTokenizer(reader);
 				// Cannot create a reader for a binary file
 			
 			case DOCX:
