@@ -16,17 +16,23 @@ import java.util.ArrayList;
  */
 public class LexerMain {
 
+	
+	
 	public static void main(String[] args) {
 		
 		String lexer = null;
 		boolean showTokens = true;
+		boolean removeComments = false;
 		ArrayList<String> files = new ArrayList<>();
 		for (String arg: args) {
 			if (arg.equals("-hideTokens")) {
 				showTokens = false;
 			} else if (arg.startsWith("-lexer:")) {
 				lexer = arg.substring("-lexer:".length());
-			} else {
+			} else if(arg.equals("-rmvcomments")){
+				removeComments = true;
+			}
+			else {
 				files.add(arg);
 			}
 		}
