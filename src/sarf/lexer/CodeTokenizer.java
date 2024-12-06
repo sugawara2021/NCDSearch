@@ -12,11 +12,14 @@ import java.io.Reader;
 
 public class CodeTokenizer implements TokenReader {
 
+	public enum CommentRemoval { ENABLED, DISABLED };
 	List<Token> tokens;
 	private int index = -1;
+	private CommentRemoval removeComments = CommentRemoval.DISABLED;
 	
-	public CodeTokenizer(Reader r) {
+	public CodeTokenizer(Reader r, CommentRemoval removeComments) {
 		// r からファイルの中身をロードする
+		this.removeComments = removeComments;
 		tokens = processFile(r);
 	}
 	
@@ -34,11 +37,10 @@ public class CodeTokenizer implements TokenReader {
     
     @Override
     public String getToken() {
-    	// TODO Auto-generated method stub
- if(index >= 0 && index < tokens.size()) {
-	 Token specificToken = tokens.get(index);
-	 return specificToken.value;
- }
+    	if(index >= 0 && index < tokens.size()) {
+    		Token specificToken = tokens.get(index);
+    		return specificToken.value;
+    	}
     	
     	return null;
     }
@@ -75,15 +77,17 @@ public class CodeTokenizer implements TokenReader {
     	return 0;
     }
     
-    private static List<Token> processFile(Reader r) {
+    private List<Token> processFile(Reader r) {
         List<Token> tokens = new ArrayList<>();
         try (Scanner scanner = new Scanner(r)) {
             int lineNumber = 0;
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 lineNumber++;
-                String sanitizedLine = removeComments(line);
-                tokens.addAll(tokenizeCode(sanitizedLine, lineNumber));
+                if (removeComments == CommentRemoval.ENABLED) {
+                    line = removeComments(line);
+                }
+                tokens.addAll(tokenizeCode(line, lineNumber));
             }
         } catch (Exception e) {
             //System.out.println("An error occurred while processing the file: " + file.getPath());

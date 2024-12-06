@@ -15,6 +15,7 @@ import org.antlr.v4.runtime.CharStreams;
 
 import ncdsearch.normalizer.CPP14Normalizer;
 import sarf.lexer.lang.CobolLexer;
+import sarf.lexer.CodeTokenizer.CommentRemoval;
 import sarf.lexer.lang.CPP14Lexer;
 import sarf.lexer.lang.CSharpLexer;
 import sarf.lexer.lang.ECMAScriptLexer;
@@ -62,7 +63,9 @@ public class TokenReaderFactory {
 		filetype.put("txt", FileType.PLAINTEXT);
 		filetype.put("html", FileType.PLAINTEXT);
 		filetype.put("md", FileType.PLAINTEXT);
+
 		filetype.put("neutral", FileType.NEUTRAL);
+		filetype.put("neutral_with_comment_removal", FileType.NEUTRAL_WITH_COMMENT_REMOVAL);
 		filetype.put("docx", FileType.DOCX);
 	}
 	
@@ -175,8 +178,11 @@ public class TokenReaderFactory {
 				return new PlainTextReader(new StringReader(new String(buf, charset)));
 				
 			case NEUTRAL:
-				return new CodeTokenizer(new StringReader(new String(buf, charset)));
-				
+				return new CodeTokenizer(new StringReader(new String(buf, charset)), CommentRemoval.DISABLED);
+
+			case NEUTRAL_WITH_COMMENT_REMOVAL:
+				return new CodeTokenizer(new StringReader(new String(buf, charset)), CommentRemoval.ENABLED);
+
 			case DOCX:
 				return new DocxReader(new ByteArrayInputStream(buf));
 				
@@ -246,12 +252,14 @@ public class TokenReaderFactory {
 				return new PlainTextReader(reader);
 				
 			case NEUTRAL:
-				return new CodeTokenizer(reader);
-				// Cannot create a reader for a binary file
-			
+				return new CodeTokenizer(reader, CommentRemoval.DISABLED);
+
+			case NEUTRAL_WITH_COMMENT_REMOVAL:
+				return new CodeTokenizer(reader, CommentRemoval.ENABLED);
+
 			case DOCX:
-				
 			case UNSUPPORTED:
+				// Cannot create a reader for a binary file
 			
 			default:
 				return null;
